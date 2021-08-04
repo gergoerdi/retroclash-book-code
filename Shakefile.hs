@@ -49,7 +49,6 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
         putNormal $ "Cleaning files in " <> outDir
         removeFilesAfter outDir [ "//*" ]
 
-    projectDir "keypad/switches" Nothing "Keypad"
     projectDir "keypad/toggle" (Just "src/keypad/target") "Keypad"
     projectDir "keypad/toggle-debounce" (Just "src/keypad/target") "Keypad"
     projectDir "keypad/display-leds" Nothing "Keypad"

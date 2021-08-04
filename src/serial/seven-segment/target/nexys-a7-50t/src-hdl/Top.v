@@ -8,7 +8,7 @@ module Top(
 
    assign AN[7:4] = 4'b1111;
    
-   SerialSS u_SerialSS
+   topEntity u_topEntity
      (.CLK(CLK100MHZ),
       .RESET(1'b0),
       .ENABLE(1'b1),

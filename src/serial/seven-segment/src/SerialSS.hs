@@ -2,37 +2,21 @@
 module SerialSS where
 
 import Clash.Prelude
+import Clash.Annotations.TH
 import RetroClash.SevenSegment
 import RetroClash.Utils
 import RetroClash.SerialRx
 import RetroClash.Clock
 
-
-{-# NOINLINE topEntity #-}
-{-# ANN topEntity
-  (Synthesize
-    { t_name   = "SerialSS"
-    , t_inputs =
-          [ PortName "CLK"
-          , PortName "RESET"
-          , PortName "ENABLE"
-          , PortName "RX"
-          ]
-    , t_output =
-          PortProduct "SS"
-          [ PortName "AN"
-          , PortName "SEG"
-          , PortName "DP"
-          ]
-    }) #-}
 topEntity
-    :: Clock System
-    -> Reset System
-    -> Enable System
-    -> Signal System Bit
-    -> ( Signal System (Vec 4 (Active Low))
-       , Signal System (Vec 7 (Active Low))
-       , Signal System (Active Low)
+    :: "CLK"    ::: Clock System
+    -> "RESET"  ::: Reset System
+    -> "ENABLE" ::: Enable System
+    -> "RX"     ::: Signal System Bit
+    -> "SS"     :::
+       ( "AN"  ::: Signal System (Vec 4 (Active Low))
+       , "SEG" ::: Signal System (Vec 7 (Active Low))
+       , "DP"  ::: Signal System (Active Low)
        )
 topEntity = exposeClockResetEnable board
   where
@@ -49,3 +33,5 @@ topEntity = exposeClockResetEnable board
 
         nybbles :: _ (Vec 4 (Unsigned 4))
         nybbles = bitCoerce <$> digits
+
+makeTopEntity 'topEntity

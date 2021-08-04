@@ -2,25 +2,14 @@
 module Keypad where
 
 import Clash.Prelude
+import Clash.Annotate.TH
 import RetroClash.Utils
 
-{-# ANN topEntity
-  (Synthesize
-    { t_name   = "Keypad"
-    , t_inputs =
-          [ PortName "CLK"
-          , PortName "ROWS"
-          ]
-    , t_output = PortProduct ""
-          [ PortName "LEDS"
-          , PortName "COLS"
-          ]
-    }) #-}
 topEntity
-    :: Clock System
-    -> Signal System (Vec 4 (Active Low))
-    -> ( Signal System (Vec 16 (Active Low))
-      , Signal System (Vec 4 (Active Low))
+    :: "CLK" ::: Clock System
+    -> "ROWS" ::: Signal System (Vec 4 (Active Low))
+    -> ( "LEDS" ::: Signal System (Vec 16 (Active Low))
+      , "COLS" ::: Signal System (Vec 4 (Active Low))
       )
 topEntity = withResetEnableGen board
   where
@@ -51,3 +40,5 @@ scanKeypad rows = (cols, transpose <$> bundle state)
     --   where
     --     colState col = regEn (repeat False) ({- stable .&&. -} currentCol .== col) $
     --                    {- debounce (SNat @100) (repeat False) -} rows
+
+makeTopEntity 'topEntity

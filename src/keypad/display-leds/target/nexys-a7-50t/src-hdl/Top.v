@@ -4,7 +4,7 @@ module Top(
            inout [10:1]  JA
            );
 
-   Keypad u_Keypad
+   topEntity u_topEntity
      (.CLK(CLK100MHZ),
       .ROWS(JA[10:7]),
       .COLS(JA[4:1]),
