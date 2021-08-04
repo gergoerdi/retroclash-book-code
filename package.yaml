@@ -68,9 +68,7 @@ flags:
 
 executables:
   patterns-sim:
-    source-dirs:
-      - vga/patterns/sim
-      - vga/patterns/src
+    source-dirs: vga/patterns/src
     main: Sim.hs
 
   bounce-state:

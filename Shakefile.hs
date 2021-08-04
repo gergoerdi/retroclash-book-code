@@ -51,4 +51,5 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
 
     projectDir "serial/echo" "Serial"
     projectDir "serial/seven-segment" "SerialSS"
+    projectDir "vga/patterns" "Patterns"
     projectDir "vga/bounce-state" "Bounce"
