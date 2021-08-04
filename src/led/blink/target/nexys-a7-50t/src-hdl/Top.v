@@ -1,6 +1,6 @@
 module Top(
            input         CLK100MHZ,
-           output [1:0] LED,
+           output [0:0] LED
            );
 
    topEntity u_topEntity

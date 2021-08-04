@@ -2,7 +2,7 @@
 module Keypad where
 
 import Clash.Prelude
-import Clash.Annotate.TH
+import Clash.Annotations.TH
 import RetroClash.Utils
 
 topEntity
