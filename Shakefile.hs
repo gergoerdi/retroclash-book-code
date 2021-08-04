@@ -29,14 +29,14 @@ projectDir :: FilePath -> Maybe FilePath -> String -> Rules ()
 projectDir root targetDir mod = do
 -- echo = do
     kit@ClashKit{..} <- clashRules (outDir </> root </> "clash") Verilog
-        [ root </> "src" ]
+        [ "src" </> root </> "src" ]
         mod
         [ "-Wno-partial-type-signatures"
         ] $
         return ()
 
     forM_ targets $ \(name, synth) -> do
-        SynthKit{..} <- synth kit (outDir </> root </> name) (fromMaybe (root </> "target") targetDir </> name) "Top"
+        SynthKit{..} <- synth kit (outDir </> root </> name) (fromMaybe ("src" </> root </> "target") targetDir </> name) "Top"
 
         mapM_ (uncurry $ nestedPhony (root </> name)) $
           ("bitfile", need [bitfile]):phonies
@@ -50,8 +50,8 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
         removeFilesAfter outDir [ "//*" ]
 
     projectDir "keypad/switches" Nothing "Keypad"
-    projectDir "keypad/toggle" (Just "keypad/target") "Keypad"
-    projectDir "keypad/toggle-debounce" (Just "keypad/target") "Keypad"
+    projectDir "keypad/toggle" (Just "src/keypad/target") "Keypad"
+    projectDir "keypad/toggle-debounce" (Just "src/keypad/target") "Keypad"
     projectDir "keypad/display-leds" Nothing "Keypad"
     projectDir "keypad/display-ss" Nothing "Keypad"
 

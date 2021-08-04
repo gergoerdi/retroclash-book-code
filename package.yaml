@@ -68,15 +68,15 @@ flags:
 
 executables:
   patterns-sim:
-    source-dirs: vga/patterns/src
+    source-dirs: src/vga/patterns/src
     main: Sim.hs
 
   bounce-state:
-    source-dirs: vga/bounce-state/src
+    source-dirs: src/vga/bounce-state/src
     main: simulator.hs
 
   bounce-state-verilator:
-    source-dirs: vga/bounce-state/src
+    source-dirs: src/vga/bounce-state/src
     main: verilator.hs
     when:
     - condition: flag(verilator)
