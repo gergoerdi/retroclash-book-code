@@ -57,6 +57,12 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
         putNormal $ "Cleaning files in " <> outDir
         removeFilesAfter outDir [ "//*" ]
 
+    mapM (projectMultiDir "led/blink")
+      [ "BlinkExplicitUnsigned"
+      , "BlinkExplicitUnsignedAccurate"
+      , "BlinkExplicitIndex"
+      , "BlinkHiddenIndex"
+      ]
     projectDir "led/button" "Button"
 
     mapM (projectMultiDir "keypad/toggle") ["Keypad", "Debounced"]
