@@ -1,5 +1,5 @@
 {-# LANGUAGE NumericUnderscores #-}
-module Keypad where
+module Debounced where
 
 import Clash.Prelude
 import Clash.Annotations.TH

@@ -25,21 +25,29 @@ targets =
     -- , ("papilio-one",  xilinxISE papilioOne)
     ]
 
-projectDir :: FilePath -> Maybe FilePath -> String -> Rules ()
-projectDir root targetDir mod = do
--- echo = do
-    kit@ClashKit{..} <- clashRules (outDir </> root </> "clash") Verilog
-        [ "src" </> root </> "src" ]
+rules :: FilePath -> String -> String -> Rules ()
+rules root mod nick = do
+    kit@ClashKit{..} <- clashRules (outDir </> nick </> "clash") Verilog
+        [ root </> "src" ]
         mod
         [ "-Wno-partial-type-signatures"
         ] $
         return ()
 
     forM_ targets $ \(name, synth) -> do
-        SynthKit{..} <- synth kit (outDir </> root </> name) (fromMaybe ("src" </> root </> "target") targetDir </> name) "Top"
+        SynthKit{..} <- synth kit (outDir </> nick </> name) (targetDir </> name) "Top"
 
-        mapM_ (uncurry $ nestedPhony (root </> name)) $
+        mapM_ (uncurry $ nestedPhony (nick </> name)) $
           ("bitfile", need [bitfile]):phonies
+    nestedPhony nick "clashi" $ clash ["--interactive", "-i" <> root </> "src", mod]
+  where
+    targetDir = root </> "target"
+
+projectDir :: FilePath -> String -> Rules ()
+projectDir root mod = rules ("src" </> root) mod root
+
+projectMultiDir :: FilePath -> String -> Rules ()
+projectMultiDir root mod = rules ("src" </> root) mod (root </> mod)
 
 main :: IO ()
 main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
@@ -49,15 +57,14 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
         putNormal $ "Cleaning files in " <> outDir
         removeFilesAfter outDir [ "//*" ]
 
-    projectDir "led/button" Nothing "Button"
+    projectDir "led/button" "Button"
 
-    projectDir "keypad/toggle" (Just "src/keypad/target") "Keypad"
-    projectDir "keypad/toggle-debounce" (Just "src/keypad/target") "Keypad"
-    projectDir "keypad/display-leds" Nothing "Keypad"
-    projectDir "keypad/display-ss" Nothing "Keypad"
+    mapM (projectMultiDir "keypad/toggle") ["Keypad", "Debounced"]
+    projectDir "keypad/display-leds" "Keypad"
+    projectDir "keypad/display-ss" "Keypad"
 
-    projectDir "serial/echo" Nothing "Serial"
-    projectDir "serial/seven-segment" Nothing "SerialSS"
+    projectDir "serial/echo" "Serial"
+    projectDir "serial/seven-segment" "SerialSS"
 
-    projectDir "vga/patterns" Nothing "Patterns"
-    projectDir "vga/bounce-state" Nothing "Bounce"
+    projectDir "vga/patterns" "Patterns"
+    projectDir "vga/bounce-state" "Bounce"
