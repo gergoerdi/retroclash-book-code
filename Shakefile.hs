@@ -25,8 +25,8 @@ targets =
     -- , ("papilio-one",  xilinxISE papilioOne)
     ]
 
-projectDir :: FilePath -> String -> Rules ()
-projectDir root mod = do
+projectDir :: FilePath -> Maybe FilePath -> String -> Rules ()
+projectDir root targetDir mod = do
 -- echo = do
     kit@ClashKit{..} <- clashRules (outDir </> root </> "clash") Verilog
         [ root </> "src" ]
@@ -36,7 +36,7 @@ projectDir root mod = do
         return ()
 
     forM_ targets $ \(name, synth) -> do
-        SynthKit{..} <- synth kit (outDir </> root </> name) (root </> "target" </> name) "Top"
+        SynthKit{..} <- synth kit (outDir </> root </> name) (fromMaybe (root </> "target") targetDir </> name) "Top"
 
         mapM_ (uncurry $ nestedPhony (root </> name)) $
           ("bitfile", need [bitfile]):phonies
@@ -49,14 +49,14 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
         putNormal $ "Cleaning files in " <> outDir
         removeFilesAfter outDir [ "//*" ]
 
-    projectDir "keypad/switches" "Keypad"
-    projectDir "keypad/toggle" "Keypad"
-    projectDir "keypad/toggle-debounce" "Keypad"
-    projectDir "keypad/display-leds" "Keypad"
-    projectDir "keypad/display-ss" "Keypad"
+    projectDir "keypad/switches" Nothing "Keypad"
+    projectDir "keypad/toggle" (Just "keypad/target") "Keypad"
+    projectDir "keypad/toggle-debounce" (Just "keypad/target") "Keypad"
+    projectDir "keypad/display-leds" Nothing "Keypad"
+    projectDir "keypad/display-ss" Nothing "Keypad"
 
-    projectDir "serial/echo" "Serial"
-    projectDir "serial/seven-segment" "SerialSS"
+    projectDir "serial/echo" Nothing "Serial"
+    projectDir "serial/seven-segment" Nothing "SerialSS"
 
-    projectDir "vga/patterns" "Patterns"
-    projectDir "vga/bounce-state" "Bounce"
+    projectDir "vga/patterns" Nothing "Patterns"
+    projectDir "vga/bounce-state" Nothing "Bounce"
