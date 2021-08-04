@@ -50,4 +50,5 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
         removeFilesAfter outDir [ "//*" ]
 
     projectDir "serial/echo" "Serial"
+    projectDir "serial/seven-segment" "SerialSS"
     projectDir "vga/bounce-state" "Bounce"
