@@ -25,7 +25,9 @@ targets =
     -- , ("papilio-one",  xilinxISE papilioOne)
     ]
 
-echo = do
+projectDir :: FilePath -> String -> Rules ()
+projectDir root mod = do
+-- echo = do
     kit@ClashKit{..} <- clashRules (outDir </> root </> "clash") Verilog
         [ root </> "src" ]
         mod
@@ -36,11 +38,8 @@ echo = do
     forM_ targets $ \(name, synth) -> do
         SynthKit{..} <- synth kit (outDir </> root </> name) (root </> "target" </> name) "Top"
 
-        mapM_ (uncurry $ nestedPhony name) $
+        mapM_ (uncurry $ nestedPhony (root </> name)) $
           ("bitfile", need [bitfile]):phonies
-  where
-    root = "serial/echo"
-    mod = "Serial"
 
 main :: IO ()
 main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
@@ -49,4 +48,6 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
     phony "clean" $ do
         putNormal $ "Cleaning files in " <> outDir
         removeFilesAfter outDir [ "//*" ]
-    echo
+
+    projectDir "serial/echo" "Serial"
+    projectDir "vga/bounce-state" "Bounce"

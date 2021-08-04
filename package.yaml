@@ -2,6 +2,12 @@ name: retroclash-book
 version: 0.1.0
 category: hardware
 
+custom-setup:
+  dependencies:
+    - base
+    - Cabal
+    - clashilator
+
 dependencies:
   - base >= 4.7 && < 5
   - clash-prelude
@@ -14,6 +20,8 @@ dependencies:
   - clash-shake
 
   - mtl
+  - transformers
+  - extra
   - array
   - lens
   - sdl2
@@ -53,9 +61,29 @@ ghc-options:
   -fplugin GHC.TypeLits.Normalise
   -fplugin GHC.TypeLits.Extra.Solver
 
+flags:
+  verilator:
+    manual: True
+    default: False
+
 executables:
-  patterns:
+  patterns-sim:
     source-dirs:
       - vga/patterns/sim
       - vga/patterns/src
     main: Sim.hs
+
+  bounce-state:
+    source-dirs: vga/bounce-state/src
+    main: simulator.hs
+
+  bounce-state-verilator:
+    source-dirs: vga/bounce-state/src
+    main: verilator.hs
+    when:
+    - condition: flag(verilator)
+      then:
+        verbatim:
+          x-clashilator-top-is: Bounce
+      else:
+        buildable: false

@@ -3,6 +3,7 @@ resolver: clash-1.4.2.yaml
 extra-deps:
   - retroclash-lib
   - retroclash-sim
+  - clashilator
   - clash-shake
 
   - barbies-2.0.1.0
