@@ -64,6 +64,12 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
       , "BlinkHiddenIndex"
       ]
     projectDir "led/button" "Button"
+    mapM (projectMultiDir "led/switch")
+      [ "Reverse"
+      , "Bundle"
+      ]
+    projectDir "led/button-toggle" "ButtonToggle"
+    projectDir "led/switch-blink" "Blink"
 
     mapM (projectMultiDir "keypad/toggle") ["Keypad", "Debounced"]
     projectDir "keypad/display-leds" "Keypad"
