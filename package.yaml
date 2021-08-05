@@ -97,3 +97,14 @@ executables:
       else:
         buildable: false
 
+  etcher-verilator:
+    source-dirs: src/vga/etcher/src
+    main: verilator.hs
+    when:
+    - condition: flag(verilator)
+      then:
+        verbatim:
+          x-clashilator-top-is: Etcher
+      else:
+        buildable: false
+

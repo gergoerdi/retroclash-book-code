@@ -90,3 +90,4 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
 
     projectDir "vga/patterns" "Patterns"
     mapM_ (projectMultiDir "vga/bounce") ["Bounce", "BounceState"]
+    projectDir "vga/etcher" "Etcher"
