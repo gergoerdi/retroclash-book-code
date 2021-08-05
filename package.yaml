@@ -85,3 +85,14 @@ executables:
           x-clashilator-top-is: Bounce
       else:
         buildable: false
+
+  bounce-verilator:
+    source-dirs: src/vga/bounce/src
+    main: verilator.hs
+    when:
+    - condition: flag(verilator)
+      then:
+        verbatim:
+          x-clashilator-top-is: Bounce
+      else:
+        buildable: false

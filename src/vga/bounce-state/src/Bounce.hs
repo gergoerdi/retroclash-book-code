@@ -1,5 +1,4 @@
 {-# LANGUAGE NumericUnderscores, RecordWildCards #-}
-{-# LANGUAGE ApplicativeDo, ViewPatterns, TupleSections #-}
 module Bounce where
 
 import Clash.Prelude
@@ -17,8 +16,8 @@ createDomain vSystem{vName="Dom25", vPeriod = hzToPeriod 25_175_000}
 
 topEntity
     :: "CLK_25MHZ" ::: Clock Dom25
-    -> "RESET" ::: Reset Dom25
-    -> "VGA" ::: VGAOut Dom25 8 8 8
+    -> "RESET"     ::: Reset Dom25
+    -> "VGA"       ::: VGAOut Dom25 8 8 8
 topEntity = withEnableGen board
   where
     board :: (HiddenClockResetEnable Dom25) => VGAOut Dom25 8 8 8
