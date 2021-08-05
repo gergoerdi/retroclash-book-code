@@ -2,8 +2,8 @@
 module Main where
 
 import Clash.Prelude
-import Bounce.Game
-import Bounce.Video
+import BounceState.Game
+import BounceState.Video
 import RetroClash.Sim.SDL
 import Control.Monad.State
 

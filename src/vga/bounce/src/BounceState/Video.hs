@@ -1,6 +1,5 @@
 {-# LANGUAGE RecordWildCards #-}
-{-# LANGUAGE TypeApplications #-}
-module Bounce.Video
+module BounceState.Video
     ( draw
 
     , Color
@@ -9,7 +8,7 @@ module Bounce.Video
 import Clash.Prelude
 import Data.Word
 
-import Bounce.Game
+import BounceState.Game
 
 type Color = (Word8, Word8, Word8)
 

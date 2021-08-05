@@ -79,4 +79,4 @@ main = shakeArgs shakeOptions{ shakeFiles = outDir } $ do
     projectDir "serial/seven-segment" "SerialSS"
 
     projectDir "vga/patterns" "Patterns"
-    projectDir "vga/bounce-state" "Bounce"
+    mapM_ (projectMultiDir "vga/bounce") ["Bounce", "BounceState"]

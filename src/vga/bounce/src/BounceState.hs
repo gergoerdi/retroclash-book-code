@@ -1,5 +1,5 @@
 {-# LANGUAGE NumericUnderscores, RecordWildCards #-}
-module Bounce where
+module BounceState where
 
 import Clash.Prelude
 import Clash.Annotations.TH
@@ -8,8 +8,8 @@ import RetroClash.VGA
 import RetroClash.Clock
 import Data.Maybe
 
-import Bounce.Game
-import Bounce.Video
+import BounceState.Game
+import BounceState.Video
 
 -- | 25 MHz clock, needed for the VGA mode we use.
 createDomain vSystem{vName="Dom25", vPeriod = hzToPeriod 25_175_000}

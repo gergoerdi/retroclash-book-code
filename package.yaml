@@ -71,21 +71,6 @@ executables:
     source-dirs: src/vga/patterns/src
     main: Sim.hs
 
-  bounce-state:
-    source-dirs: src/vga/bounce-state/src
-    main: simulator.hs
-
-  bounce-state-verilator:
-    source-dirs: src/vga/bounce-state/src
-    main: verilator.hs
-    when:
-    - condition: flag(verilator)
-      then:
-        verbatim:
-          x-clashilator-top-is: Bounce
-      else:
-        buildable: false
-
   bounce-verilator:
     source-dirs: src/vga/bounce/src
     main: verilator.hs
@@ -96,3 +81,19 @@ executables:
           x-clashilator-top-is: Bounce
       else:
         buildable: false
+        
+  bounce-state:
+    source-dirs: src/vga/bounce/src
+    main: simulator.hs
+
+  bounce-state-verilator:
+    source-dirs: src/vga/bounce/src
+    main: verilator.hs
+    when:
+    - condition: flag(verilator)
+      then:
+        verbatim:
+          x-clashilator-top-is: BounceState
+      else:
+        buildable: false
+

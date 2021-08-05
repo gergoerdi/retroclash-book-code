@@ -1,5 +1,5 @@
-{-# LANGUAGE RecordWildCards, TemplateHaskell, RankNTypes, TypeApplications #-}
-module Bounce.Game
+{-# LANGUAGE RecordWildCards #-}
+module BounceState.Game
     ( Params(..)
     , defaultParams
 
