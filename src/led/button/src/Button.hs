@@ -4,10 +4,17 @@ import Clash.Prelude
 import Clash.Annotations.TH
 
 topEntity
-    :: "BTNL" ::: Signal System Bit
-    -> "BTNC" ::: Signal System Bit
-    -> "BTNR" ::: Signal System Bit
-    -> "LEDS" ::: Signal System (Vec 3 Bit)
-topEntity btnl btnc btnr = bundle (btnl :> btnc :> btnr :> Nil)
+    :: "BTN" :::
+       ( "1" ::: Signal System Bit
+       , "2" ::: Signal System Bit
+       )
+    -> "LED" :::
+       ( "1" ::: Signal System Bit
+       , "2" ::: Signal System Bit
+       )
+topEntity (btn1, btn2) = (both, either)
+  where
+    both = (.&.) <$> btn1 <*> btn2
+    either = (.|.) <$> btn1 <*> btn2
 
 makeTopEntity 'topEntity

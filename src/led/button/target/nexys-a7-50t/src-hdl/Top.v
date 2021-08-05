@@ -1,14 +1,13 @@
-module Top(input        BTNC,
-           input        BTNL,
+module Top(input        BTNL,
            input        BTNR,
-           output [2:0] LED
+           output [1:0] LED
            );
-
+   
    topEntity u_topEntity
-     (.BTNL(BTNL),
-      .BTNC(BTNC),
-      .BTNR(BTNR),
-      .LEDS(LED[2:0])
+     (.BTN_1(BTNL),
+      .BTN_2(BTNR),
+      .LED_1(LED[0]),
+      .LED_2(LED[1])
       );
    
 endmodule
