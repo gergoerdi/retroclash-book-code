@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedStrings, RecordWildCards #-}
 import Clash.Shake
-import Clash.Shake.Xilinx
+import Clash.Shake.Xilinx as Xilinx
 
 import Development.Shake
 import Development.Shake.Command
@@ -20,7 +20,7 @@ outDir :: FilePath
 outDir = "_build"
 
 targets =
-    [ ("nexys-a7-50t", xilinxVivado nexysA750T)
+    [ ("nexys-a7-50t", Xilinx.vivado nexysA750T)
     -- , ("papilio-pro",  xilinxISE papilioPro)
     -- , ("papilio-one",  xilinxISE papilioOne)
     ]

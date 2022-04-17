@@ -1,10 +1,9 @@
-resolver: clash-1.4.3.yaml
+resolver: clash-1.6.1.yaml
 
 extra-deps:
-  - retroclash-lib-0.1.0
-  - retroclash-sim-0.1.0
-  - clashilator-0.1.0
-  - clash-shake-0.1.0
+  - retroclash-lib-0.1.1
+  - retroclash-sim-0.1.1
+  - clashilator-0.1.2
+  - clash-shake-0.2.2
 
-  - barbies-th-0.1.2
   - monoidal-containers-0.6.0.1
